@@ -1,0 +1,31 @@
+@media (max-width: 1170px) {
+    .navBarContainer{
+        padding: 3px 20px;
+    }
+    .standardWidth{
+        padding: 0 20px;
+    }
+    .pt_100{
+        padding: 100px 40px 0 0;
+
+    }
+}
+@media (max-width: 900px) {
+    .landingContainer{
+        grid-template-columns: 1fr;
+    }
+    .pt_100{
+        padding: 50px 0 0 0;
+
+    }
+}
+@media (max-width: 500px) {
+    .HeaderFont{
+        font-size: 30px;
+    }
+}
+@media (max-width: 425px) {
+    .navBar button{
+        display: none;
+    }
+}

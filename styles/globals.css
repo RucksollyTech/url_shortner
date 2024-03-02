@@ -22,7 +22,11 @@ input{
 }
 body {
   color: rgb(var(--foreground-rgb));
- 
+  max-width: 1440px;
+  width: 100%;
+  margin: auto;
+  background: linear-gradient(146.41deg, var(--bgBlue) 10.14%, #FFFFFF 66.6%);
+
 }
 
 @layer utilities {
@@ -59,7 +63,6 @@ body {
 
 }
 .landingBg{
-  background: linear-gradient(146.41deg, var(--bgBlue) 10.14%, #FFFFFF 66.6%);
   min-height: 100vh;
   position: relative;
 }
