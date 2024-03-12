@@ -22,6 +22,14 @@
     background: var(--blue);
     margin-left: 20px;
 }
+.outline_btn_success:hover{
+    background-color: var(--blue);
+    color: #fff;
+}
+.btn_primary:hover{
+    background-color: #fff;
+    color: var(--blue);
+}
 .navBarContainer{
     background: #fff !important;
     position: sticky;
