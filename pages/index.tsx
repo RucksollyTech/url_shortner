@@ -112,13 +112,11 @@ export default function Home() {
                             <div className="liner" />
                             <div className="padContent2">
                                 {loading && <div className="text-rose-500"> Loading... </div>}
-                                {shortUrl &&
-                                    <div className="pb_1">
-                                        <strong>
-                                            Result: 
-                                        </strong>
-                                    </div>
-                                }
+                                <div className="pb_1">
+                                    <strong>
+                                        Result: 
+                                    </strong>
+                                </div>
                                 {(shortUrl && !showQrCode) &&
                                     <textarea ref={ref} className="border w-full rounded-[10px] px-[15px] py-[10px] bg-[#FFFFFF] max-h-[50px]">
                                         {`${ROOT_URL}/${shortUrl}`}
@@ -146,9 +144,12 @@ export default function Home() {
                                 {shortUrl &&
                                     <div className="padContent3">
                                         {(shortUrl && !showQrCode) &&
-                                            <button onClick={copyToClipboard} className="outline_btn_success">
-                                                Copy 
-                                            </button>
+                                            <>
+                                                <button onClick={copyToClipboard} className="outline_btn_success">
+                                                    Copy 
+                                                </button>
+                                                <span className="text-rose-500 pl-2 font-semibold">{copySuccess}</span>
+                                            </>
                                         }
                                         {(showQrCode && !shortUrlQ) &&
                                             <button onClick={download} className="outline_btn_success">
