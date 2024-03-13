@@ -5,6 +5,7 @@ import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } f
 import { useQRCode } from 'next-qrcode';
 import { ROOT_URL } from "@/Componets/Constants";
 import { saveAs } from 'file-saver'
+import ReactModal from 'react-modal';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -166,6 +167,29 @@ export default function Home() {
                     <img width="25" height="25" src="https://img.icons8.com/external-bartama-glyph-64-bartama-graphic/25/FFFFFF/external-ban-miscellaneous-elements-glyph-bartama-glyph-64-bartama-graphic.png" alt="ban"/>
                     Report Abuse
                 </div>
+
+
+
+
+
+                <ReactModal
+                    isOpen={true}
+                    className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
+                >
+                    <img className="absolute top-1 right-1" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
+                    <div className="font-bold">
+                        Enter the malicious URL
+                    </div>
+                    <div className="pt-2">
+                        <input placeholder="Enter URL " type="text" className="border rounded p-1 w-full" />
+                    </div>
+                    <div className="pt-2">
+                        <button className="w-full font-medium p-1 rounded bg-rose-500 text-white">
+                            Report
+                        </button>
+                    </div>
+                </ReactModal>
+
             </div>
         </div>
     );

@@ -59,3 +59,58 @@ export const hasuraQueryUrlShortner = (url_name:string) => {
     return startExecuteCreateNewUrlQuery();
 }
 
+export const hasuraQueryUrlReport = (url_name:string) => {
+    /*
+This is an example snippet - you should consider tailoring it
+to your service.
+*/
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+    const result = await fetch(
+      "undefined",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName
+        })
+      }
+    );
+  
+    return await result.json();
+  }
+  
+  const operationsDoc = `
+    mutation MyMutation {
+      insert_reported_site(objects: {date: "12-13-2025", url: ".com", user: "kk@gmailcom"}) {
+        returning {
+          url
+          user
+        }
+      }
+    }
+  `;
+  
+  function executeMyMutation() {
+    return fetchGraphQL(
+      operationsDoc,
+      "MyMutation",
+      {}
+    );
+  }
+  
+  async function startExecuteMyMutation() {
+    const { errors, data } = await executeMyMutation();
+  
+    if (errors) {
+      // handle those errors like a pro
+      console.error(errors);
+    }
+  
+    // do something great with this precious data
+    console.log(data);
+  }
+  
+  startExecuteMyMutation();
+}
