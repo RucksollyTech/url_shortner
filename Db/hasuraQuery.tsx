@@ -1,10 +1,12 @@
 import GenerateRandomKeys from "@/Componets/GenerateRandomKeys";
 
 export type Variables ={
-    date: Date,
+    date: Date | (() => number),
     new_url:string,
     url_name:string,
     errors?: string,
+    report?: string,
+    user?: string,
 }
 
 
@@ -59,58 +61,32 @@ export const hasuraQueryUrlShortner = (url_name:string) => {
     return startExecuteCreateNewUrlQuery();
 }
 
-export const hasuraQueryUrlReport = (url_name:string) => {
-    /*
-This is an example snippet - you should consider tailoring it
-to your service.
-*/
-
-async function fetchGraphQL(operationsDoc, operationName, variables) {
-    const result = await fetch(
-      "undefined",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          query: operationsDoc,
-          variables: variables,
-          operationName: operationName
-        })
-      }
-    );
-  
-    return await result.json();
-  }
-  
+export const hasuraQueryUrlReport = (new_url:string,report:string,user:string) => {
+    const new_date = new Date();
+    const date = new_date.getDate
   const operationsDoc = `
-    mutation MyMutation {
-      insert_reported_site(objects: {date: "12-13-2025", url: ".com", user: "kk@gmailcom"}) {
+    mutation UrlReport($new_url: String!, $report: String!, $date: Date!, $user: String) {
+      insert_reported_site(objects: {date: $date, url: $new_url, user: $user, report: $report}) {
         returning {
           url
-          user
         }
       }
     }
   `;
+
   
-  function executeMyMutation() {
+  function executeUrlReport() {
     return fetchGraphQL(
       operationsDoc,
-      "MyMutation",
-      {}
+      "UrlReport",
+      {new_url,report,date,user}
     );
   }
-  
-  async function startExecuteMyMutation() {
-    const { errors, data } = await executeMyMutation();
-  
-    if (errors) {
-      // handle those errors like a pro
-      console.error(errors);
-    }
-  
-    // do something great with this precious data
-    console.log(data);
+
+  const startExecuteUrlReportMutation = async():Promise<Partial<Variables>> => {
+      const { errors, data } = await executeUrlReport();
+      return { errors, ...data.insert_reported_site.returning[0] }
   }
-  
-  startExecuteMyMutation();
+  type startExecuteCreateNewUrlQueryReturnType =Awaited<ReturnType<typeof startExecuteUrlReportMutation>>
+  return startExecuteUrlReportMutation();
 }

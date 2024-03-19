@@ -3,7 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: {
-      url: string;
+      url: string,
+      report : string
     };
 }
 
@@ -11,10 +12,11 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 const report_url = async(req:ExtendedNextApiRequest,res:NextApiResponse) => {
     if (req.method === 'POST') {
         const body = req.body;
-        const url = body.url;
+        const {url,report} = body;
+        const user = "rucksolly@gmail.com";
         try {
-            const data:Partial<Variables> | void = hasuraQueryUrlReport(url)
-            res.send(data);
+            const data:Promise<Partial<Variables>> = hasuraQueryUrlReport(url,report,user)
+            res.send({data,success:true});
         } catch (err) {}
     }
 }

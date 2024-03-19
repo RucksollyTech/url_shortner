@@ -17,7 +17,7 @@ export default function Home() {
     const [modalOpener,setModalOpener] = useState<boolean>(false)
     const [showQrCode,setShowQrCode] = useState<boolean | undefined>()
     const [loading,setLoading] = useState<boolean | undefined>()
-    const [success,setSuccess] = useState<boolean | undefined>()
+    const [success,setSuccess] = useState<boolean>(false)
     const { Image:Amaze } = useQRCode();
 
     const [form,setForm] = useState({url: "", report: ""})
@@ -194,7 +194,7 @@ export default function Home() {
                     className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
                 >
                     <img onClick={()=>setModalOpener(false)} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
-                    {!success && 
+                    {!success ? 
                         <>
                             <div className="font-bold">
                                 Enter the malicious URL
@@ -220,11 +220,20 @@ export default function Home() {
                                 />
                             </div>
                             <div className="pt-2">
-                                <button onClick={submitQuery} className="w-full font-medium p-1 rounded bg-rose-500 text-white">
-                                    Report
+                                <button disabled={loading} onClick={submitQuery} className="w-full font-medium p-1 rounded bg-rose-500 text-white">
+                                    {loading ? "Submitting request..." : "Submit"}
                                 </button>
                             </div>
                         </>
+                    :   
+                        <div className="pt-4">
+                            <div className="font-bold p-2 rounded text-green-900 bg-green-400">
+                                Your report was received. 
+                            </div>
+                            <div className="text-red-500 pt-2 text-xs font-extrabold">
+                                Please do not repeat request.  
+                            </div>  
+                        </div>
                     }
                 </ReactModal>
 
