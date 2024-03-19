@@ -14,6 +14,7 @@ export default function Home() {
     const [copySuccess,setCopySuccess] = useState<string | undefined>()
     const [shortUrl,setShortUrl] = useState<string | undefined>()
     const [shortUrlQ,setShortUrlQ] = useState<boolean | undefined>()
+    const [modalOpener,setModalOpener] = useState<boolean>(false)
     const [showQrCode,setShowQrCode] = useState<boolean | undefined>()
     const [loading,setLoading] = useState<boolean | undefined>()
     const { Image:Amaze } = useQRCode();
@@ -163,25 +164,26 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="report">
+                <div className="report" onClick={()=>setModalOpener(true)}>
                     <img width="25" height="25" src="https://img.icons8.com/external-bartama-glyph-64-bartama-graphic/25/FFFFFF/external-ban-miscellaneous-elements-glyph-bartama-glyph-64-bartama-graphic.png" alt="ban"/>
                     Report Abuse
                 </div>
-
-
-
-
-
                 <ReactModal
-                    isOpen={true}
+                    isOpen={modalOpener}
                     className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
                 >
-                    <img className="absolute top-1 right-1" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
+                    <img onClick={()=>setModalOpener(false)} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
                     <div className="font-bold">
                         Enter the malicious URL
                     </div>
                     <div className="pt-2">
                         <input placeholder="Enter URL " type="text" className="border rounded p-1 w-full" />
+                    </div>
+                    <div className="pt-2">
+                        <div className="font-bold text-xs pb-1">
+                            Write Report(Optional)
+                        </div>
+                        <textarea placeholder="Start typing " className="border rounded p-1 w-full" />
                     </div>
                     <div className="pt-2">
                         <button className="w-full font-medium p-1 rounded bg-rose-500 text-white">

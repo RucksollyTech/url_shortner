@@ -13,7 +13,7 @@ const report_url = async(req:ExtendedNextApiRequest,res:NextApiResponse) => {
         const body = req.body;
         const url = body.url;
         try {
-            const data:Partial<Variables> = await hasuraQueryUrlReport(url)
+            const data:Partial<Variables> | void = hasuraQueryUrlReport(url)
             res.send(data);
         } catch (err) {}
     }
