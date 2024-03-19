@@ -4,6 +4,7 @@ export type Variables ={
     date: Date | (() => number),
     new_url:string,
     url_name:string,
+    url?:string,
     errors?: string,
     report?: string,
     user?: string,
@@ -61,12 +62,11 @@ export const hasuraQueryUrlShortner = (url_name:string) => {
     return startExecuteCreateNewUrlQuery();
 }
 
-export const hasuraQueryUrlReport = (new_url:string,report:string,user:string) => {
-    const new_date = new Date();
-    const date = new_date.getDate
+export const hasuraQueryUrlReport = (url:string,report:string,user:string) => {
+    const date = new Date();
   const operationsDoc = `
-    mutation UrlReport($new_url: String!, $report: String!, $date: Date!, $user: String) {
-      insert_reported_site(objects: {date: $date, url: $new_url, user: $user, report: $report}) {
+    mutation UrlReport($url: String!, $report: String!, $date: date, $user: String!) {
+      insert_reported_site(objects: {date: $date, url: $url, user: $user, report: $report}) {
         returning {
           url
         }
@@ -79,13 +79,13 @@ export const hasuraQueryUrlReport = (new_url:string,report:string,user:string) =
     return fetchGraphQL(
       operationsDoc,
       "UrlReport",
-      {new_url,report,date,user}
+      {url,report,date,user}
     );
   }
 
   const startExecuteUrlReportMutation = async():Promise<Partial<Variables>> => {
       const { errors, data } = await executeUrlReport();
-      return { errors, ...data.insert_reported_site.returning[0] }
+      return { errors, ...data }
   }
   type startExecuteCreateNewUrlQueryReturnType =Awaited<ReturnType<typeof startExecuteUrlReportMutation>>
   return startExecuteUrlReportMutation();

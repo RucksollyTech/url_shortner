@@ -17,7 +17,7 @@ export default function Home() {
     const [modalOpener,setModalOpener] = useState<boolean>(false)
     const [showQrCode,setShowQrCode] = useState<boolean | undefined>()
     const [loading,setLoading] = useState<boolean | undefined>()
-    const [success,setSuccess] = useState<boolean>(false)
+    const [success,setSuccess] = useState<boolean | number>(false)
     const { Image:Amaze } = useQRCode();
 
     const [form,setForm] = useState({url: "", report: ""})
@@ -65,22 +65,29 @@ export default function Home() {
         }
     }
     const submitQuery= async()=>{
-        setLoading(true)
-        const response = await fetch('/api/report_url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                data: form
+        if(form.url !== ""){
+            setLoading(true)
+            const response = await fetch('/api/report_url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: form
+                })
             })
-        })
-        const data = await response.json()
-        if(!data.errors){
-            const {success} = data
-            setSuccess(success)
+            const data = await response.json()
+            if(!data.errors){
+                const {success} = data
+                setSuccess(success)
+            }
+            setLoading(false)
         }
-        setLoading(false)
+    }
+    const closeModal = ():void => {
+        setForm({url: "", report: ""})
+        setSuccess(false)
+        setModalOpener(false)
     }
     useEffect(()=>{
         if(!showQrCode || showQrCode){
@@ -193,37 +200,48 @@ export default function Home() {
                     isOpen={modalOpener}
                     className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
                 >
-                    <img onClick={()=>setModalOpener(false)} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
+                    <img onClick={closeModal} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
                     {!success ? 
                         <>
-                            <div className="font-bold">
-                                Enter the malicious URL
-                            </div>
-                            <div className="pt-2">
-                                <input 
-                                    value={form.url}
-                                    onChange={(e:ChangeEvent<HTMLInputElement>)=>setForm({...form, url: e.target.value})} 
-                                    placeholder="Enter URL " 
-                                    type="text" 
-                                    className="border rounded p-1 w-full" 
-                                />
-                            </div>
-                            <div className="pt-2">
-                                <div className="font-bold text-xs pb-1">
-                                    Write Report(Optional)
+                            {success === false &&
+                                <>
+                                    <div className="font-bold">
+                                        Enter the malicious URL
+                                    </div>
+                                    <div className="pt-2">
+                                        <input 
+                                            value={form.url}
+                                            onChange={(e:ChangeEvent<HTMLInputElement>)=>setForm({...form, url: e.target.value})} 
+                                            placeholder="Enter URL " 
+                                            type="text" 
+                                            className="border rounded p-1 w-full" 
+                                        />
+                                    </div>
+                                    <div className="pt-2">
+                                        <div className="font-bold text-xs pb-1">
+                                            Write Report(Optional)
+                                        </div>
+                                        <textarea 
+                                            value={form.report}
+                                            onChange={(e:ChangeEvent<HTMLTextAreaElement>)=>setForm({...form, report: e.target.value})}
+                                            placeholder="Start typing " 
+                                            className="border rounded p-1 w-full" 
+                                        />
+                                    </div>
+                                    <div className="pt-2">
+                                        <button disabled={loading} onClick={submitQuery} className="w-full font-medium p-1 rounded bg-rose-500 text-white">
+                                            {loading ? "Submitting request..." : "Submit"}
+                                        </button>
+                                    </div>
+                                </>
+                            }
+                            {(success === 0) &&
+                                <div className="pt-4">
+                                    <div className="font-bold p-2 rounded text-red-900 bg-red-400">
+                                        An error occurred, please try again later.
+                                    </div> 
                                 </div>
-                                <textarea 
-                                    value={form.report}
-                                    onChange={(e:ChangeEvent<HTMLTextAreaElement>)=>setForm({...form, report: e.target.value})}
-                                    placeholder="Start typing " 
-                                    className="border rounded p-1 w-full" 
-                                />
-                            </div>
-                            <div className="pt-2">
-                                <button disabled={loading} onClick={submitQuery} className="w-full font-medium p-1 rounded bg-rose-500 text-white">
-                                    {loading ? "Submitting request..." : "Submit"}
-                                </button>
-                            </div>
+                            }
                         </>
                     :   
                         <div className="pt-4">
