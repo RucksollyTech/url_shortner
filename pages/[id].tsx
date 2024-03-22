@@ -13,9 +13,10 @@ import {useEffect} from "react"
 function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
     const {url_name} = props?.posts
     const router =  useRouter()
-    if (router?.isFallback) return <div className="grid place-content-center h-full w-full font-bold text-2xl text-blue-700">Loading...</div>
+    if (router?.isFallback) {
+      return <div className="grid place-content-center h-full w-full font-bold text-2xl text-blue-700">Loading...</div>
+    }
     useEffect(()=>{
-        // window.location.assign(`//${url_name}`);
         if(url_name.includes("https://") || url_name.includes("http://")){
           window.location.assign(url_name);
         }else{
@@ -23,7 +24,6 @@ function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
         }
         
     },[url_name])
-    return
 }
    
 export async function getStaticProps(context:GetStaticPropsContext) {
