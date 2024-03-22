@@ -5,6 +5,9 @@
     width: 100%;
     margin: 10px auto;
 }
+.navBar .font-bold{
+    font-size: 22px;
+}
 
 .outline_btn_success,
 .btn_primary{

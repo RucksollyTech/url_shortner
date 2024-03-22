@@ -90,3 +90,65 @@ export const hasuraQueryUrlReport = (url:string,report:string,user:string) => {
   type startExecuteCreateNewUrlQueryReturnType =Awaited<ReturnType<typeof startExecuteUrlReportMutation>>
   return startExecuteUrlReportMutation();
 }
+
+
+export const getAllUrlData = async () => {
+  
+  const operationsDoc = `
+    query GetAllUrl {
+      urls {
+        new_url
+        id
+        url_name
+      }
+    }
+  `;
+
+  function fetchGetAllUrl() {
+    return fetchGraphQL(
+      operationsDoc,
+      "GetAllUrl",
+      {}
+    );
+  }
+
+  const startFetchGetAllUrl = async() => {
+      const { errors, data } = await fetchGetAllUrl();
+      return { errors, data }
+  }
+
+  type startExecuteCreateNewUrlQueryReturnType =Awaited<ReturnType<typeof startFetchGetAllUrl>>
+  return startFetchGetAllUrl();
+
+}
+
+
+export async function getSingleUrlQuery(url:string) {
+
+  const operationsDoc = `
+    query MyQuery {
+      urls(where: {new_url: {_eq: ${url}}}) {
+        id
+        url_name
+        new_url
+      }
+    }
+  `;
+
+  function fetchMyQuery() {
+    return fetchGraphQL(
+      operationsDoc,
+      "MyQuery",
+      {}
+    );
+  }
+
+
+  const { errors, data } = await fetchMyQuery();
+  if (errors) {
+    return errors
+  }
+  return data
+}
+
+  

@@ -11,9 +11,9 @@ const NavBar = ({url,newUrlHandler,setShowQrCode}:NavVars):React.JSX.Element => 
     return (
         <div className="navBarContainer">
             <div className="navBar">
-                <div>
-                    LOGO
-                </div>
+                <i className="font-bold">
+                    Short Url
+                </i>
                 <div>
                     <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success">
                         Short Link

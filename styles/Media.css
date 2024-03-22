@@ -23,9 +23,31 @@
     .HeaderFont{
         font-size: 30px;
     }
+    .report{
+        font-size: 7px;
+        top: 50px;
+        right: 20px;
+        width: 40px;
+        height: 55px;
+    }
+    .smHides{
+        display: none;
+    }
+    .padContent{
+        padding: 10px 0 10px 0;
+    }
+    .navBar .font-bold{
+        font-size: 16px;
+    }
 }
 @media (max-width: 425px) {
     .navBar button{
         display: none;
+    }
+    .outline_btn_success,
+    .btn_primary{
+        padding: 7px 15px;
+        font-size: 12px;
+        font-weight: 500;
     }
 }

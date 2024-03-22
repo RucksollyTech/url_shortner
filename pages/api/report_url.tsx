@@ -20,11 +20,9 @@ const report_url = async(req:ExtendedNextApiRequest,res:NextApiResponse) => {
         try {
             const data:Promise<Partial<Variables>> = hasuraQueryUrlReport(url,report,user)
             if((await data).errors && (await data).errors?.length){
-                console.log("was here")
                 res.status(400)
                 res.send({data,success:0});
             }else{
-                console.log("was here 2")
                 res.send({data,success:true});
             }
         } catch (err) {

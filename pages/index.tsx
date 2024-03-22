@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import NavBar from "@/Componets/NavBar";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
@@ -19,7 +18,7 @@ export default function Home() {
     const [loading,setLoading] = useState<boolean | undefined>()
     const [success,setSuccess] = useState<boolean | number>(false)
     const { Image:Amaze } = useQRCode();
-
+    const refs = useRef<HTMLDivElement>(null)
     const [form,setForm] = useState({url: "", report: ""})
 
     const ref = useRef<HTMLTextAreaElement>(null)
@@ -43,8 +42,35 @@ export default function Home() {
         setUrl(e.target.value)
         setShortUrl("")
     }
+    const scroller = ()=>{
+        const {current} = refs
+        if (current !== null){
+            current.scrollIntoView({behavior: "smooth"})
+        }
+    }
     const newUrlHandler = async(e:MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) =>{
+        scroller()
         setShowQrCode(false)
+        if(url && !shortUrl){
+            setLoading(true)
+            const response = await fetch('/api/create_url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    url: url
+                })
+            })
+            const data = await response.json()
+            if(!data.errors){
+                const {new_url} = data
+                setShortUrl(new_url)
+            }
+            setLoading(false)
+        }
+    }
+    const newUlrFromQrcode = async()=>{
         if(url && !shortUrl){
             setLoading(true)
             const response = await fetch('/api/create_url', {
@@ -90,6 +116,8 @@ export default function Home() {
         setModalOpener(false)
     }
     useEffect(()=>{
+        newUlrFromQrcode()
+        scroller()
         if(!showQrCode || showQrCode){
             setShortUrlQ(!showQrCode)
         }
@@ -112,7 +140,7 @@ export default function Home() {
                                 Shorten the long URL/Web link in just two
                                 steps.
                             </h1>
-                            <div>
+                            <div className="smHides">
                                 <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success lg">
                                     Shorten URL
                                 </button>
@@ -129,7 +157,7 @@ export default function Home() {
                                 value={url}
                                 onChange={(e:ChangeEvent<HTMLInputElement>)=>changeForm(e)}
                                 type="text" 
-                                placeholder="Eg: www.greyvalour.com"
+                                placeholder="Eg: https://www.greyvalour.com"
                             />
                             <div className="padContent2">
                                 <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success">
@@ -141,8 +169,8 @@ export default function Home() {
                             </div>
                             <div className="liner" />
                             <div className="padContent2">
-                                {loading && <div className="text-rose-500"> Loading... </div>}
-                                <div className="pb_1">
+                                {loading && <div className="text-rose-500 scroll-mt-3"> Loading... </div>}
+                                <div className="pb_1" ref={refs}>
                                     <strong>
                                         Result: 
                                     </strong>
@@ -152,7 +180,7 @@ export default function Home() {
                                         {`${ROOT_URL}/${shortUrl}`}
                                     </textarea>
                                 }
-                                {(showQrCode && !shortUrlQ) &&
+                                {(showQrCode && !shortUrlQ && shortUrl) &&
                                     <div ref ={ref2}>
                                         <Amaze
                                             text={`${ROOT_URL}/${shortUrl}`}
