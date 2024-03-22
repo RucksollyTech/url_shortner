@@ -14,12 +14,12 @@ export type Variables ={
 export async function fetchGraphQL(operationsDoc:string, operationName:string, 
     variables:Partial<Variables>) {
     const result = await fetch(
-    "https://saving-gar-96.hasura.app/v1/graphql",
+      `${process.env.NEXT_PUBLIC_HASURA_URL}`,
     {
         method: "POST",
         headers: {
             "content-type": "application/json",
-            "x-hasura-admin-secret":"es39cy6eo4ghrYiATK4lTpi31gvJIY1EyKaOPb0rasHqJE773IJONOjRxUqc1F5x"
+            "x-hasura-admin-secret": `${process.env.NEXT_PUBLIC_HASURA_USER_SECRET_KEY}`
         },
         body: JSON.stringify({
         query: operationsDoc,

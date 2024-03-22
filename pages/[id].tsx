@@ -17,9 +17,11 @@ function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
     useEffect(()=>{
         // window.location.assign(`//${url_name}`);
         if(url_name.includes("https://") || url_name.includes("http://")){
-          return window.location.assign(url_name);
+          window.location.assign(url_name);
+        }else{
+          window.location.assign(`http://${url_name}`);
         }
-        return window.location.assign(`http://${url_name}`);
+        
     },[url_name])
     return
 }
