@@ -16,14 +16,21 @@ function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
     if (router?.isFallback) {
       return <div className="grid place-content-center h-full w-full font-bold text-2xl text-blue-700">Loading...</div>
     }
-    useEffect(()=>{
-        if(url_name.includes("https://") || url_name.includes("http://")){
-          window.location.assign(url_name);
-        }else{
-          window.location.assign(`http://${url_name}`);
-        }
+    if (typeof window !== "undefined"){
+      if(url_name.includes("https://") || url_name.includes("http://")){
+          return window.location.assign(url_name);
+      }else{
+          return window.location.assign(`http://${url_name}`);
+      }
+    }
+    // useEffect(()=>{
+    //     if(url_name.includes("https://") || url_name.includes("http://")){
+    //       window.location.assign(url_name);
+    //     }else{
+    //       window.location.assign(`http://${url_name}`);
+    //     }
         
-    },[url_name])
+    // },[url_name])
 }
    
 export async function getStaticProps(context:GetStaticPropsContext) {
