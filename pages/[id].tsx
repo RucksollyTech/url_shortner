@@ -10,27 +10,43 @@ import {useEffect} from "react"
 // }
 
 
-function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
-    const {url_name} = props?.posts
-    const router =  useRouter()
-    if (router?.isFallback) {
+// function UrlRedirect(props:InferGetStaticPropsType<typeof getStaticProps>) {
+//     const {url_name} = props?.posts
+//     const router =  useRouter()
+//     if (router?.isFallback) {
+//       return <div className="grid place-content-center h-full w-full font-bold text-2xl text-blue-700">Loading...</div>
+//     }
+//     if (typeof window !== "undefined"){
+//       if(url_name.includes("https://") || url_name.includes("http://")){
+//           return window.location.assign(url_name);
+//       }else{
+//           return window.location.assign(`http://${url_name}`);
+//       }
+//     }
+//     // useEffect(()=>{
+//     //     if(url_name.includes("https://") || url_name.includes("http://")){
+//     //       window.location.assign(url_name);
+//     //     }else{
+//     //       window.location.assign(`http://${url_name}`);
+//     //     }
+        
+//     // },[url_name])
+// }
+
+const UrlRedirect = async(props: InferGetStaticPropsType<typeof getStaticProps>) =>{
+  const { url_name } = await props?.posts || {}; 
+  const router = useRouter()
+  if (router?.isFallback) {
       return <div className="grid place-content-center h-full w-full font-bold text-2xl text-blue-700">Loading...</div>
-    }
-    if (typeof window !== "undefined"){
-      if(url_name.includes("https://") || url_name.includes("http://")){
+  }
+  if (typeof window !== "undefined" && url_name) { 
+      if (url_name.includes("https://") || url_name.includes("http://")) {
           return window.location.assign(url_name);
-      }else{
+      } else {
           return window.location.assign(`http://${url_name}`);
       }
-    }
-    // useEffect(()=>{
-    //     if(url_name.includes("https://") || url_name.includes("http://")){
-    //       window.location.assign(url_name);
-    //     }else{
-    //       window.location.assign(`http://${url_name}`);
-    //     }
-        
-    // },[url_name])
+  }
+  return null;
 }
    
 export async function getStaticProps(context:GetStaticPropsContext) {
