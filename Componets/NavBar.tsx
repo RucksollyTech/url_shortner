@@ -12,7 +12,7 @@ const NavBar = ({url,newUrlHandler,setShowQrCode}:NavVars):React.JSX.Element => 
         <div className="navBarContainer">
             <div className="navBar">
                 <i className="font-bold">
-                    Short Url
+                    Z1N
                 </i>
                 <div>
                     <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success">
