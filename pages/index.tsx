@@ -157,7 +157,7 @@ export default function Home() {
                                 value={url}
                                 onChange={(e:ChangeEvent<HTMLInputElement>)=>changeForm(e)}
                                 type="text" 
-                                placeholder="Eg: https://www.greyvalour.com"
+                                placeholder="https://www.greyvalour.com"
                             />
                             <div className="padContent2">
                                 <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success">
