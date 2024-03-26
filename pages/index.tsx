@@ -170,7 +170,7 @@ export default function Home() {
                             <div className="liner" />
                             <div className="padContent2">
                                 {loading && <div className="text-rose-500"> Loading... </div>}
-                                <div className="pb_1" ref={refs}>
+                                <div className="pb_1 scroll-mt-3" ref={refs}>
                                     <strong>
                                         Result: 
                                     </strong>
