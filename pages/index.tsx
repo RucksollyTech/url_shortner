@@ -228,7 +228,7 @@ export default function Home() {
                     isOpen={modalOpener}
                     className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
                 >
-                    <img onClick={closeModal} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="multiply"/>
+                    <img onClick={closeModal} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="Cancel"/>
                     {!success ? 
                         <>
                             {success === false &&

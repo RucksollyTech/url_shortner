@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import React from 'react'
 
@@ -11,9 +12,12 @@ const NavBar = ({url,newUrlHandler,setShowQrCode}:NavVars):React.JSX.Element => 
     return (
         <div className="navBarContainer">
             <div className="navBar">
-                <i className="font-bold">
+                {/* <i className="font-bold">
                     Z1N
-                </i>
+                </i> */}
+                <div>
+                    <Image src="/Images/logo.png" alt="Z1N" width={60} height={60} />
+                </div>
                 <div>
                     <button disabled={url?false:true} onClick={newUrlHandler} className="outline_btn_success">
                         Short Link
