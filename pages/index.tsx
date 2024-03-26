@@ -136,7 +136,7 @@ export default function Home() {
                             <small className="blue bold6">
                                 Easy way to share my web links.
                             </small>
-                            <h1 className="HeaderFont minPad">
+                            <h1 className="HeaderFont minPad text-black">
                                 Shorten the long URL/Web link in just two
                                 steps.
                             </h1>
@@ -228,7 +228,7 @@ export default function Home() {
                     isOpen={modalOpener}
                     className="relative outline-none max-w-[400px] my-[150px] mx-auto shadow-md rounded bg-white p-3"
                 >
-                    <img onClick={closeModal} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="Cancel"/>
+                    <img onClick={closeModal} className="absolute top-1 right-1 cursor-pointer" width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/multiply.png" alt="C2ancel"/>
                     {!success ? 
                         <>
                             {success === false &&
