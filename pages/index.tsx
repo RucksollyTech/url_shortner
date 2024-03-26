@@ -169,7 +169,7 @@ export default function Home() {
                             </div>
                             <div className="liner" />
                             <div className="padContent2">
-                                {loading && <div className="text-rose-500 scroll-mt-3"> Loading... </div>}
+                                {loading && <div className="text-rose-500"> Loading... </div>}
                                 <div className="pb_1" ref={refs}>
                                     <strong>
                                         Result: 
